@@ -7,57 +7,97 @@ Widget buildTaskItem(Map model, context) =>
       return Dismissible(
         key: Key(model['id'].toString()),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 40.0,
-                child: Text(
-                  '${model['time']}',
+          padding: const EdgeInsets.only(top: 8.0, right: 5, left: 5),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+            decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 5,
+                    color: Colors.black12,
+                    offset: Offset(0.0, 0.6))
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              shape: BoxShape.rectangle,
+              // border: Border.all(
+              //     color: Theme.of(context).colorScheme.primary)
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.check_box,
+                  ),
+                  onPressed: () {
+                    dataBaseHelper.updateData(status: 'done', id: model['id']);
+                  },
+                  color: Colors.grey,
                 ),
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${model['title']}',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${model['date']}',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                    )
-                  ],
+                const SizedBox(
+                  width: 5,
                 ),
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              IconButton(
-                icon: const Icon(Icons.check_box),
-                onPressed: () {
-                  dataBaseHelper.updateData(status: 'done', id: model['id']);
-                  print("done?");
-                },
-                color: Colors.green,
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete,color: Colors.red,),
-                onPressed: () {
-                  dataBaseHelper.deleteData(id: model['id']);
-                },
-                color: Colors.black45,
-              ),
-            ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${model['title']}',
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${model['date']}',
+                            style: const TextStyle(
+                                color: Color(0xff935050),
+                                fontWeight: FontWeight.w800),
+                          ),
+                          Text(
+                            '${model['time']}',
+                            style: const TextStyle(
+                                color: Color(0xff935050),
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 50.0,
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    dataBaseHelper.updateData(id: model['id'], status: 'new');
+                  },
+                  color: Colors.black45,
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    dataBaseHelper.deleteData(id: model['id']);
+                  },
+                  color: Colors.black45,
+                ),
+              ],
+            ),
           ),
         ),
         onDismissed: (direction) {

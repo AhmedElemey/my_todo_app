@@ -28,12 +28,14 @@ class DatabaseHelper extends ChangeNotifier {
   bool isBottomSheetShown = false;
   IconData fabIcon = Icons.edit;
 
-  bool get getIsBottomSheetShown{
+  bool get getIsBottomSheetShown {
     return isBottomSheetShown;
   }
-  IconData get getFabIcon{
+
+  IconData get getFabIcon {
     return fabIcon;
   }
+
   void changeBottomSheetState({
     required bool isShow,
     required IconData icon,
@@ -43,6 +45,7 @@ class DatabaseHelper extends ChangeNotifier {
 
     notifyListeners();
   }
+
   void changeIndex(int index) {
     currentIndex = index;
     notifyListeners();
@@ -112,8 +115,8 @@ class DatabaseHelper extends ChangeNotifier {
     required String status,
     required int id,
   }) async {
-    database!.rawUpdate('UPDATE tasks SET status = ? WHERE id = ?',
-        ['$status', id]).then((value) {
+    database!.rawUpdate(
+        'UPDATE tasks SET status = ? WHERE id = ?', [status, id]).then((value) {
       getDataFromDatabase(database);
       notifyListeners();
       // print(status.toString());
