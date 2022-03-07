@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_todo_app/models/task_model.dart';
 import 'package:my_todo_app/views/done_screen.dart';
 import 'package:my_todo_app/views/tasks_screen.dart';
 import 'package:sqflite/sqflite.dart';
@@ -113,14 +114,20 @@ class DatabaseHelper extends ChangeNotifier {
 
   void updateData({
     required String status,
-    required int id,
+    required Task task,
   }) async {
-    database!.rawUpdate(
-        'UPDATE tasks SET status = ? WHERE id = ?', [status, id]).then((value) {
+    database!.update("tasks", task.toMap(),where: 'id = ?',
+        whereArgs: [task.id]).then((value){
       getDataFromDatabase(database);
-      notifyListeners();
-      // print(status.toString());
+        notifyListeners();
     });
+    // database!.rawUpdate(
+    //     'UPDATE tasks SET status = ? WHERE id = ?', [status, id]).then((value) {
+    //       print(value);
+    //   getDataFromDatabase(database);
+    //   notifyListeners();
+    //   // print(status.toString());
+    // });
   }
 
   void deleteData({

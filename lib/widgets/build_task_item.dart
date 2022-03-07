@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_todo_app/models/task_model.dart';
 import 'package:my_todo_app/services/database.dart';
+import 'package:my_todo_app/widgets/default_form_field.dart';
+import 'package:my_todo_app/widgets/edit_screen.dart';
 import 'package:provider/provider.dart';
+
+var titleController = TextEditingController();
+var timeController = TextEditingController();
+var dateController = TextEditingController();
 
 Widget buildTaskItem(Map model, context) =>
     Consumer<DatabaseHelper>(builder: (context, dataBaseHelper, _) {
@@ -31,7 +39,13 @@ Widget buildTaskItem(Map model, context) =>
                     Icons.check_box,
                   ),
                   onPressed: () {
-                    dataBaseHelper.updateData(status: 'done', id: model['id']);
+                    dataBaseHelper.updateData(
+                        status: 'done',
+                        task: Task(
+                            id: model['id'],
+                            date: dateController.text,
+                            time: timeController.text,
+                            title: titleController.text));
                   },
                   color: Colors.grey,
                 ),
@@ -82,7 +96,17 @@ Widget buildTaskItem(Map model, context) =>
                     color: Colors.green,
                   ),
                   onPressed: () {
-                    dataBaseHelper.updateData(id: model['id'], status: 'new');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditScreen(
+                          time: model['time'],
+                          date: model['date'],
+                          id: model['id'],
+                          title: model['title'],
+                        ),
+                      ),
+                    );
                   },
                   color: Colors.black45,
                 ),
