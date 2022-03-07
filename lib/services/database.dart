@@ -116,18 +116,24 @@ class DatabaseHelper extends ChangeNotifier {
     required String status,
     required Task task,
   }) async {
-    database!.update("tasks", task.toMap(),where: 'id = ?',
-        whereArgs: [task.id]).then((value){
+    database!.update("tasks", task.toMap(),
+        where: 'id = ?', whereArgs: [task.id]).then((value) {
       getDataFromDatabase(database);
-        notifyListeners();
+      notifyListeners();
     });
-    // database!.rawUpdate(
-    //     'UPDATE tasks SET status = ? WHERE id = ?', [status, id]).then((value) {
-    //       print(value);
-    //   getDataFromDatabase(database);
-    //   notifyListeners();
-    //   // print(status.toString());
-    // });
+  }
+
+  void updateStatus({
+    required String status,
+    required int id,
+  }) {
+    database!.rawUpdate(
+        'UPDATE tasks SET status = ? WHERE id = ?', [status, id]).then((value) {
+      print(value);
+      getDataFromDatabase(database);
+      notifyListeners();
+      // print(status.toString());
+    });
   }
 
   void deleteData({

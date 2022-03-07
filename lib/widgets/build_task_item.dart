@@ -39,13 +39,10 @@ Widget buildTaskItem(Map model, context) =>
                     Icons.check_box,
                   ),
                   onPressed: () {
-                    dataBaseHelper.updateData(
-                        status: 'done',
-                        task: Task(
-                            id: model['id'],
-                            date: dateController.text,
-                            time: timeController.text,
-                            title: titleController.text));
+                    dataBaseHelper.updateStatus(
+                      status: 'done',
+                      id: model['id'],
+                    );
                   },
                   color: Colors.grey,
                 ),
